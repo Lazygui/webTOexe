@@ -13,18 +13,16 @@ async function createWindow() {
     width: 1200,
     height: 800,
     frame: true,
-    transparent: true,
-    backgroundColor: '#00000000',
-    autoHideMenuBar: false,
-    menuBarVisible: true,
-    maximizable: true,
+    // transparent: true,
+    // backgroundColor: '#00000000',
+    autoHideMenuBar: true,
+    menuBarVisible: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
       webSecurity: false
     }
   });
-
   // 获取Vue项目路径
   const appPath = app.isPackaged
     ? path.join(process.resourcesPath, 'app')
