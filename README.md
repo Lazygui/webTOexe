@@ -16,6 +16,7 @@
 
 ## 开发说明
 
+- 使用`npm install`构建依赖
 - 使用`npm start`启动应用程序
 - 使用`npm run build`构建应用程序
 
