@@ -15,8 +15,9 @@ async function createWindow() {
     frame: true,
     transparent: true,
     backgroundColor: '#00000000',
-    autoHideMenuBar: true,
-    menuBarVisible: false,
+    autoHideMenuBar: false,
+    menuBarVisible: true,
+    maximizable: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
