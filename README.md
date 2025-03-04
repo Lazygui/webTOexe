@@ -1,4 +1,4 @@
-# Vue3 Project Launcher
+# web-vue
 
 这是一个用于加载 Vue3 项目的 Electron 桌面应用。
 

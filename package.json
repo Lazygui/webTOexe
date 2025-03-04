@@ -10,7 +10,7 @@
   },
   "build": {
     "appId": "com.vue3.project.launcher",
-    "productName": "Vue3 Project Launcher",
+    "productName": "web-vue",
     "directories": {
       "output": "dist"
     },
