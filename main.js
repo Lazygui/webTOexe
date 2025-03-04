@@ -12,10 +12,15 @@ async function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    frame: false,
+    frame: true,
+    transparent: true,
+    backgroundColor: '#00000000',
+    autoHideMenuBar: true,
+    menuBarVisible: false,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
+      webSecurity: false
     }
   });
 
