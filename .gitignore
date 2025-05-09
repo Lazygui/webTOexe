@@ -15,6 +15,7 @@ app
 app-ssr
 coverage
 *.local
+www
 
 /cypress/videos/
 /cypress/screenshots/

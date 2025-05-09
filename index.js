@@ -22,7 +22,7 @@ const createWindow = async () => {
       webSecurity: false
     }
   })
-  win.webContents.openDevTools(); // 打开浏览器控制台
+  // win.webContents.openDevTools(); // 打开浏览器控制台
 
   win.loadFile(path.join(__dirname, 'inspection.html'));
   renderMessage(win, {
