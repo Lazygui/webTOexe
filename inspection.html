@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统自检</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .status-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-text {
+            flex-grow: 1;
+            color: #444;
+        }
+
+        .success {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+
+        .error {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+
+        .loading {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+        }
+
+        .loading-icon {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ddd;
+            border-top-color: #666;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .summary {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>系统自检</h1>
+        <div id="status-container">
+        </div>
+        <div id="summary" class="summary"></div>
+    </div>
+
+    <script>
+        const statusContainer = document.getElementById('status-container');
+        const summaryElement = document.getElementById('summary');
+        const setupList = []
+        let id = 1
+
+        function createStatusItem(check) {
+            const item = document.createElement('div');
+            item.className = 'status-item loading';
+            item.id = `check-${id}`;
+
+            item.innerHTML = `
+                <div class="status-icon">
+                    <div class="loading-icon"></div>
+                </div>
+                <div class="status-text">正在检查 ${check.step}...</div>
+            `;
+            id++
+            return item;
+        }
+
+        function updateStatus(divId, success, message) {
+            const item = document.getElementById(`check-${divId}`);
+            item.className = `status-item ${success ? 'success' : 'error'}`;
+
+            item.innerHTML = `
+                <div class="status-icon">
+                    ${success ? '✓' : '⚠'}
+                </div>
+                <div class="status-text">${message}</div>
+            `;
+        }
+
+        function updateSummary(successCount) {
+            const total = checks.length;
+            summaryElement.textContent = `自检完成：${successCount}/${total} 项通过`;
+            summaryElement.style.backgroundColor = successCount === total ? '#e8f5e9' : '#ffebee';
+            summaryElement.style.color = successCount === total ? '#2e7d32' : '#c62828';
+        }
+
+        // async function performChecks() {
+        //     let successCount = 0;
+
+        //     for (const check of checks) {
+        //         // statusContainer.appendChild(createStatusItem(check));
+
+        //         // 模拟异步检查
+        //         // const result = await new Promise(resolve => {
+        //         //     setTimeout(() => {
+        //         //         const success = Math.random() > 0.2; // 80% 成功率
+        //         //         resolve(success);
+        //         //     }, check.duration);
+        //         // });
+
+        //         // const message = result 
+        //         //     ? `${check.name} 检查通过 ✅`
+        //         //     : `${check.name} 检查失败 ❌`;
+
+        //         // updateStatus(check, result, message);
+        //         if (result) successCount++;
+        //         // updateSummary(successCount);
+        //     }
+        // }
+
+        // 开始自检
+        // performChecks();
+
+        // 监听主进程消息
+        const { ipcRenderer } = window.require('electron');
+        let step = 1
+        ipcRenderer.on('status-message', (event, data) => {
+            switch (data.status) {
+                case 'create':
+                    if (setupList.length > 0) {
+                       const  oldDiv=setupList.find(item=>item.id===(id - 1))
+                        if (oldDiv) {
+                            updateStatus(oldDiv.id, true, oldDiv.step)
+                        }
+                    }
+                    setupList.push({ id,...data })
+                    statusContainer.appendChild(createStatusItem(data));
+                    break;
+                case 'error':
+                    const check = setupList.find(item => item.step === data.step)
+                    if (check) {
+                        updateStatus(check.id, false, data.message)
+                    }
+                    break;
+            }
+            step = data.step
+        });
+    </script>
+</body>
+
+</html>
