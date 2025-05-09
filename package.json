@@ -1,49 +1,44 @@
 {
-  "name": "web-vue",
+  "name": "vue-exe",
   "version": "1.0.0",
-  "description": "A desktop application to launch Vue3+TS+Vite projects",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "electron-builder"
   },
   "build": {
-    "appId": "com.vue3.project.launcher",
-    "productName": "web-vue",
+    "appId": "com.vue.exe",
+    "productName": "vue-exe",
     "directories": {
-      "output": "dist"
+      "output": "app"
     },
     "win": {
       "target": [
-        "nsis"
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
       ],
       "icon": "build/icon.ico"
     },
-    "extraFiles": [
-      {
-        "from": ".",
-        "to": "resources/app",
-        "filter": [
-          "app/**/*"
-        ]
-      }
-    ]
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true,
+      "perMachine": true
+    }
   },
-  "keywords": [
-    "electron",
-    "vue3",
-    "vite",
-    "typescript"
-  ],
-  "author": "",
+  "author": "zhouzhijun",
   "license": "ISC",
-  "dependencies": {
-    "find-process": "^1.4.7"
-  },
+  "description": "",
   "devDependencies": {
-    "@types/node": "^20.11.24",
-    "electron-builder": "^24.12.0",
-    "electron": "^29.1.0"
+    "electron": "^36.2.0",
+    "electron-builder": "^26.0.12"
   }
 }
