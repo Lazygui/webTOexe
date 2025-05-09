@@ -147,34 +147,6 @@
             summaryElement.style.backgroundColor = successCount === total ? '#e8f5e9' : '#ffebee';
             summaryElement.style.color = successCount === total ? '#2e7d32' : '#c62828';
         }
-
-        // async function performChecks() {
-        //     let successCount = 0;
-
-        //     for (const check of checks) {
-        //         // statusContainer.appendChild(createStatusItem(check));
-
-        //         // 模拟异步检查
-        //         // const result = await new Promise(resolve => {
-        //         //     setTimeout(() => {
-        //         //         const success = Math.random() > 0.2; // 80% 成功率
-        //         //         resolve(success);
-        //         //     }, check.duration);
-        //         // });
-
-        //         // const message = result 
-        //         //     ? `${check.name} 检查通过 ✅`
-        //         //     : `${check.name} 检查失败 ❌`;
-
-        //         // updateStatus(check, result, message);
-        //         if (result) successCount++;
-        //         // updateSummary(successCount);
-        //     }
-        // }
-
-        // 开始自检
-        // performChecks();
-
         // 监听主进程消息
         const { ipcRenderer } = window.require('electron');
         let step = 1
