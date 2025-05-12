@@ -1,6 +1,6 @@
-# vue to exe
+# web to exe
 
-这是一个用于加载 Vue3 项目的 Electron 桌面应用。
+这是一个用于加载前端项目的 Electron 桌面应用。
 
 支持直接放入源码 或 打包结果
 
